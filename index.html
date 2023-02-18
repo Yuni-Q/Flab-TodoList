@@ -12,25 +12,31 @@
       const data1 = [
         {
           text: 'JS 공부하기',
+          isCompleted: true,
         },
         {
           text: 'JS 복습하기',
+          isCompleted: false,
         },
       ];
       const data2 = [
         {
           text: 'TS 공부하기',
+          isCompleted: true,
         },
         {
           text: 'TS 복습하기',
+          isCompleted: false,
         },
       ];
       const data3 = [
         {
           text: 'React 공부하기',
+          isCompleted: false,
         },
         {
           text: 'React 복습하기',
+          isCompleted: false,
         },
       ];
 
@@ -47,7 +53,9 @@
         this.render = () => {
           this.data.map((item) => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = item.text;
+            listItem.innerHTML = item.isCompleted
+              ? `<s>${item.text}</s>`
+              : `<span>${item.text}</span>`;
             this.$target.appendChild(listItem);
           });
         };
