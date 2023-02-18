@@ -5,9 +5,11 @@
   </head>
 
   <body>
-    <div id="todo-list"></div>
+    <div id="todo-list1"></div>
+    <div id="todo-list2"></div>
+    <div id="todo-list3"></div>
     <script>
-      const data = [
+      const data1 = [
         {
           text: 'JS 공부하기',
         },
@@ -15,30 +17,48 @@
           text: 'JS 복습하기',
         },
       ];
+      const data2 = [
+        {
+          text: 'TS 공부하기',
+        },
+        {
+          text: 'TS 복습하기',
+        },
+      ];
+      const data3 = [
+        {
+          text: 'React 공부하기',
+        },
+        {
+          text: 'React 복습하기',
+        },
+      ];
 
-      function TodoList({ data }) {
+      function TodoList(data, target) {
         if (data === null || data === undefined)
           throw new Error('data가 null 또는 undefined 입니다.');
-        if (!isArray(data)) throw new Error('data가 배열이 아닙니다.');
+        if (!Array.isArray(data)) throw new Error('data가 배열이 아닙니다.');
         if (new.target === undefined)
           throw new Error('new 키워드가 사용되지 않았습니다.');
 
         this.data = data;
-        this.$target = document.querySelector('#todo-list');
+        this.$target = document.getElementById(target);
 
         this.render = () => {
-          this.data &&
-            this.data.map((item) => {
-              const listItem = document.createElement('li');
-              listItem.innerHTML = item.text;
-              this.$target.appendChild(listItem);
-            });
+          this.data.map((item) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = item.text;
+            this.$target.appendChild(listItem);
+          });
         };
 
         this.render();
       }
+
       try {
-        const todoList = new TodoList({ data });
+        const todoList = new TodoList(data1, 'todo-list1');
+        const todoList2 = new TodoList(data2, 'todo-list2');
+        const todoList3 = new TodoList(data3, 'todo-list3');
       } catch (err) {
         alert(err);
       }
