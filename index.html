@@ -15,7 +15,24 @@
           text: 'JS 복습하기',
         },
       ];
-      // 이곳에서 코딩을 시작하세요!
+
+      function TodoList({ data }) {
+        this.data = data;
+        this.$target = document.querySelector('#todo-list');
+
+        this.render = () => {
+          this.data &&
+            this.data.map((item) => {
+              const listItem = document.createElement('li');
+              listItem.innerHTML = item.text;
+              this.$target.appendChild(listItem);
+            });
+        };
+
+        this.render();
+      }
+
+      const todoList = new TodoList({ data });
     </script>
   </body>
 </html>
