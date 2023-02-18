@@ -17,6 +17,12 @@
       ];
 
       function TodoList({ data }) {
+        if (data === null || data === undefined)
+          throw new Error('data가 null 또는 undefined 입니다.');
+        if (!isArray(data)) throw new Error('data가 배열이 아닙니다.');
+        if (new.target === undefined)
+          throw new Error('new 키워드가 사용되지 않았습니다.');
+
         this.data = data;
         this.$target = document.querySelector('#todo-list');
 
@@ -31,8 +37,11 @@
 
         this.render();
       }
-
-      const todoList = new TodoList({ data });
+      try {
+        const todoList = new TodoList({ data });
+      } catch (err) {
+        alert(err);
+      }
     </script>
   </body>
 </html>
