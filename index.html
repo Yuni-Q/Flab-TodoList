@@ -50,6 +50,11 @@
         this.data = data;
         this.$target = document.getElementById(target);
 
+        this.setState = (newData) => {
+          this.data = newData;
+          this.render();
+        };
+
         this.render = () => {
           this.data.map((item) => {
             const listItem = document.createElement('li');
@@ -67,6 +72,10 @@
         const todoList = new TodoList(data1, 'todo-list1');
         const todoList2 = new TodoList(data2, 'todo-list2');
         const todoList3 = new TodoList(data3, 'todo-list3');
+        todoList.setState([
+          { text: '네트워크 공부하기', isCompleted: true },
+          { text: '운영체제 공부하기', isCompleted: false },
+        ]);
       } catch (err) {
         alert(err);
       }
