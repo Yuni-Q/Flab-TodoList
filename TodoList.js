@@ -18,22 +18,42 @@ export default function TodoList(data, target) {
     this.render();
   };
 
-  this.$li.addEventListener('click', (e) => {});
+  this.$li.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-button')) {
+      this.data = this.data.filter(
+        (item) => item.id !== Number(e.target.closest('li').id)
+      );
+      console.log(this.data);
+      this.render();
+    }
+
+    if (e.target.classList.contains('edit-button')) {
+      //수정
+    }
+  });
 
   this.$input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-      this.setState({ text: this.$input.value, isCompleted: false });
+      this.setState({
+        id: this.data.length + 1,
+        text: this.$input.value,
+        isCompleted: false,
+      });
       this.$input.value = '';
     }
   });
 
   this.render = () => {
     this.$li.innerHTML = this.data
-      .map(({ text, isCompleted }) => {
-        return isCompleted ? `<li><s>${text}</s></li>` : `<li>${text}</li>`;
+      .map(({ id, text, isCompleted }) => {
+        return isCompleted
+          ? `<li id=${id}><s>${text}</s> <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`
+          : `<li id=${id}>${text} <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`;
       })
       .join('');
   };
 
   this.render();
 }
+
+// TODO: 수정, 삭제 기능 구현
