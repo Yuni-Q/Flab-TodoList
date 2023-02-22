@@ -21,23 +21,38 @@ export default function TodoList(data, target) {
   this.$li.addEventListener('click', (e) => {
     if (e.target.classList.contains('remove-button')) {
       this.data = this.data.filter(
-        (item) => item.id !== Number(e.target.closest('li').id)
+        (item) => item.id !== parseInt(e.target.closest('li').id)
       );
-      console.log(this.data);
       this.render();
     }
 
     if (e.target.classList.contains('edit-button')) {
-      //수정
+      this.data.map((item) => {
+        if (item.id === parseInt(e.target.closest('li').id)) {
+          item.isEdit = true;
+          this.render();
+        }
+      });
+      console.log(this.data);
+    }
+
+    if (e.target.classList.contains('edit-completed')) {
+      this.data.map((item) => {
+        if (item.id === parseInt(e.target.closest('li').id)) {
+          console.log(e.target.closest('li').text);
+        }
+      });
     }
   });
 
   this.$input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
+      if (e.target.value === '') return;
       this.setState({
-        id: this.data.length + 1,
+        id: Date.now(),
         text: this.$input.value,
         isCompleted: false,
+        isEdit: false,
       });
       this.$input.value = '';
     }
@@ -45,15 +60,19 @@ export default function TodoList(data, target) {
 
   this.render = () => {
     this.$li.innerHTML = this.data
-      .map(({ id, text, isCompleted }) => {
-        return isCompleted
-          ? `<li id=${id}><s>${text}</s> <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`
-          : `<li id=${id}>${text} <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`;
+      .map(({ id, text, isCompleted, isEdit }) => {
+        if (isCompleted) {
+          return isEdit
+            ? `<li id=${id}><textarea class="edit-content">${text}</textarea> <button class="edit-completed">수정완료</button><button class="remove-button">삭제</button></li>`
+            : `<li id=${id}><s>${text}</s> <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`;
+        } else {
+          return isEdit
+            ? `<li id=${id}><textarea class="edit-content">${text}</textarea> <button class="edit-completed">수정완료</button><button class="remove-button">삭제</button></li>`
+            : `<li id=${id}>${text} <button class="edit-button">수정</button><button class="remove-button">삭제</button></li>`;
+        }
       })
       .join('');
   };
 
   this.render();
 }
-
-// TODO: 수정, 삭제 기능 구현
